@@ -1,0 +1,11 @@
+const BEGINNER_WIDTH: u16 = 8_u16;
+const BEGINNER_HEIGHT: u16 = 8_u16;
+const BEGINNER_MINES: u8 = 10_u8;
+
+const INTERMEDIATE_WIDTH: u16 = 16_u16;
+const INTERMEDIATE_HEIGHT: u16 = 16_u16;
+const INTERMEDIATE_MINES: u8 = 40_u8;
+
+const EXPERT_WIDTH: u16 = 30_u16;
+const EXPERT_HEIGHT: u16 = 16_u16;
+const EXPERT_MINES: u8 = 99_u8;

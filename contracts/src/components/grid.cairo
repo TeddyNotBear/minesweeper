@@ -3,5 +3,5 @@ struct Grid {
     grid_id: u32,
     width: u16,
     height: u16,
-    start: u64,
+    start_time: u64,
 }

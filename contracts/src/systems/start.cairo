@@ -1,5 +1,6 @@
 #[system]
 mod start {
+    use starknet::ContractAddress;
     use dojo::world::Context;
     use minesweeper::components::grid::Grid;
     use minesweeper::components::square::Square;
@@ -7,17 +8,11 @@ mod start {
     use starknet::get_block_timestamp;
     use traits::Into;
 
-    const BEGINNER_WIDTH: u16 = 8_u16;
-    const BEGINNER_HEIGHT: u16 = 8_u16;
-    const BEGINNER_MINES: u8 = 10_u8;
-
-    const INTERMEDIATE_WIDTH: u16 = 16_u16;
-    const INTERMEDIATE_HEIGHT: u16 = 16_u16;
-    const INTERMEDIATE_MINES: u8 = 40_u8;
-
-    const EXPERT_WIDTH: u16 = 30_u16;
-    const EXPERT_HEIGHT: u16 = 16_u16;
-    const EXPERT_MINES: u8 = 99_u8;
+    use minesweeper::constants::{
+        BEGINNER_WIDTH, BEGINNER_HEIGHT, BEGINNER_MINES,
+        INTERMEDIATE_WIDTH, INTERMEDIATE_HEIGHT, INTERMEDIATE_MINES,
+        EXPERT_WIDTH, EXPERT_HEIGHT, EXPERT_MINES,
+    };
 
     #[derive(Serde, Drop)]
     enum Difficulty {
@@ -26,120 +21,52 @@ mod start {
         Expert: (),
     }
 
-    fn execute(ctx: Context, difficulty_level: Difficulty) -> u32 {
+    fn execute(ctx: Context, difficulty_level: Difficulty) -> (u32, ContractAddress) {
+        let (grid_id, player_id) = match difficulty_level {
+            Difficulty::Beginner(()) => generate(ctx, BEGINNER_WIDTH, BEGINNER_HEIGHT, BEGINNER_MINES),
+            Difficulty::Intermediate(()) => generate(ctx, INTERMEDIATE_WIDTH, INTERMEDIATE_HEIGHT, INTERMEDIATE_MINES),
+            Difficulty::Expert(()) => generate(ctx, EXPERT_WIDTH, EXPERT_HEIGHT, EXPERT_MINES),
+        };
+        (grid_id, player_id)
+    }
+
+    fn generate(ctx: Context, width: u16, height: u16, mines: u16) -> (u32, ContractAddress) {
         let grid_id = ctx.world.uuid();
-        match difficulty_level{
-            Difficulty::Beginner(())=>{
-                set! (
-                    ctx.world,
-                    ctx.origin.into(),
-                    (Grid {
-                        grid_id: grid_id,
-                        width: BEGINNER_WIDTH,
-                        height: BEGINNER_HEIGHT,
-                        start: get_block_timestamp(),
-                    },
-                    Mine {
-                        remaining: BEGINNER_MINES,
-                    })
-                )
-                let mut idx: u16 = 0_u16;
-                loop {
-                    if idx >= BEGINNER_WIDTH * BEGINNER_HEIGHT {
-                        break;
-                    }
-                    let x = idx % BEGINNER_WIDTH;
-                    let y = idx / BEGINNER_HEIGHT;
-                    set! (
-                        ctx.world,
-                        (ctx.origin, x, y).into(),
-                        (Square {
-                            x: x,
-                            y: y,
-                            hidden: true,
-                            mine: false,
-                            flag: false,
-                        })
-                    )
-
-                    idx += 1_u16;
-                }
+        let player_id = ctx.origin;
+        set! (
+            ctx.world,
+            player_id.into(),
+            (Grid {
+                grid_id: grid_id,
+                width: width,
+                height: height,
+                start_time: get_block_timestamp(),
             },
-            Difficulty::Intermediate(()) =>{
-                set! (
-                    ctx.world,
-                    ctx.origin.into(),
-                    (Grid {
-                        grid_id: grid_id,
-                        width: INTERMEDIATE_WIDTH,
-                        height: INTERMEDIATE_HEIGHT,
-                        start: get_block_timestamp(),
-                    },
-                    Mine {
-                        remaining: INTERMEDIATE_MINES,
-                    })
-                )
-                let mut idx: u16 = 0_u16;
-                loop {
-                    if idx >= INTERMEDIATE_WIDTH * INTERMEDIATE_HEIGHT {
-                        break;
-                    }
-
-                    let x = idx % INTERMEDIATE_WIDTH;
-                    let y = idx / INTERMEDIATE_HEIGHT;
-                    set! (
-                        ctx.world,
-                        (ctx.origin, x, y).into(),
-                        (Square {
-                            x: x,
-                            y: y,
-                            hidden: true,
-                            mine: false,
-                            flag: false,
-                        })
-                    )
-
-                    idx += 1_u16;
-                }
-            },
-            Difficulty::Expert(()) =>{
-                set! (
-                    ctx.world,
-                    ctx.origin.into(),
-                    (Grid {
-                        grid_id: grid_id,
-                        width: EXPERT_WIDTH,
-                        height: EXPERT_HEIGHT,
-                        start: get_block_timestamp(),
-                    },
-                    Mine {
-                        remaining: EXPERT_MINES,
-                    })
-                )
-                let mut idx: u16 = 0_u16;
-                loop {
-                    if idx >= EXPERT_WIDTH * EXPERT_HEIGHT {
-                        break;
-                    }
-
-                    let x = idx % EXPERT_WIDTH;
-                    let y = idx / EXPERT_HEIGHT;
-                    set! (
-                        ctx.world,
-                        (ctx.origin, x, y).into(),
-                        (Square {
-                            x: x,
-                            y: y,
-                            hidden: true,
-                            mine: false,
-                            flag: false,
-                        })
-                    )
-
-                    idx += 1_u16;
-                }
+            Mine {
+                remaining: mines,
+            })
+        )
+        let mut idx: u16 = 0_u16;
+        loop {
+            if idx >= width * height {
+                break;
             }
+            let x = idx % width;
+            let y = idx / height;
+            set! (
+                ctx.world,
+                (player_id, x, y).into(),
+                (Square {
+                    x: x,
+                    y: y,
+                    hidden: true,
+                    mine: false,
+                    flag: false,
+                })
+            );
+
+            idx += 1_u16;
         }
-        grid_id
+        (grid_id, player_id)
     }
 }
