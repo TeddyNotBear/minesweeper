@@ -19,14 +19,14 @@
 
 ## Running the game
 
-### Contract
-
 Build the world :
 ```bash
 sozo build
 
 sozo migrate
 ```
+
+## How to play ?
 
 Choose a difficulty :
 
