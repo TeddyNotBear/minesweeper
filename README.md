@@ -22,7 +22,7 @@
 ### Contract
 
 Build the world :
-```console
+```bash
 sozo build
 
 sozo migrate
@@ -30,38 +30,57 @@ sozo migrate
 
 Choose a difficulty :
 
-- Beginner (8x8 with 10 mines) :
-```console
+```bash
+# beginner (8x8 with 10 mines)
 sozo execute start -c 0
-```
 
-- Intermediate (16x16 with 40 mines) :
-```console
+# intermediate (16x16 with 40 mines) 
 sozo execute start -c 1
-```
 
-- Expert (30x16 with 99 mines) :
-```console
+# expert (30x16 with 99 mines) 
 sozo execute start -c 2
 ```
 
-Get Grid id :
+Grid :
 ```console
-sozo component entity Grid $ACCOUNT_ADDRESS
+# get Grid 
+sozo component entity Grid 0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0
+
+# get Grid schema
+sozo component schema Grid
+
+# you should get this return
+> struct Grid {
+>    grid_id: u32,
+>    width: u16,
+>    height: u16,
+>   start_time: u64,
+> }
+
+
 ```
-$ACCOUNT_ADDRESS = 0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0
 
 Get Square :
-```console
-sozo component entity Square $ACCOUNT_ADDRESS $GRID_ID $X $Y
+```bash
+# We are taking the square at position (1,0)
+sozo component entity Square  0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0 1 0
+
+# get Square schema
+sozo component schema Square
+
+# you should get this return
+> struct Square {
+>    x: u16,
+>    y: u16,
+>    hidden: bool,
+>    mine: bool,
+>    flag: bool,
+> }
+
 ```
-- $ACCOUNT_ADDRESS = 0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0
-- $GRID_ID = 0
-- $X = 1
-- $Y = 0
 
 Add Flag on Square :
-```console
-sozo execute add_flag -c $ACCOUNT_ADDRESS 1 0
+```bash
+# We are adding a flag one the square at position (1,0)
+sozo execute add_flag -c 1,0
 ```
-- $ACCOUNT_ADDRESS = 0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0
