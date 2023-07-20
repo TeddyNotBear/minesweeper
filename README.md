@@ -4,6 +4,8 @@
 
 ## Minesweeper
 
+Fully on-chain replica of the famous Minesweeper game built on Starknet using the [Dojo engine](https://github.com/dojoengine/dojo).
+
 ### Entities
 - ``
 
@@ -84,3 +86,7 @@ Add Flag on Square :
 # We are adding a flag one the square at position (1,0)
 sozo execute add_flag -c 1,0
 ```
+
+## Authors
+
+- [@NotBearTeddy](https://twitter.com/NotBearTeddy)
