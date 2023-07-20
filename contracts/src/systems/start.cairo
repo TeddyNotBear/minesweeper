@@ -48,13 +48,14 @@ mod start {
                     if idx >= BEGINNER_WIDTH * BEGINNER_HEIGHT {
                         break;
                     }
-
+                    let x = idx % BEGINNER_WIDTH;
+                    let y = idx / BEGINNER_HEIGHT;
                     set! (
                         ctx.world,
-                        (ctx.origin, grid_id, idx).into(),
+                        (ctx.origin, x, y).into(),
                         (Square {
-                            x: idx % BEGINNER_WIDTH,
-                            y: idx / BEGINNER_HEIGHT,
+                            x: x,
+                            y: y,
                             hidden: true,
                             mine: false,
                             flag: false,
@@ -75,7 +76,7 @@ mod start {
                         start: get_block_timestamp(),
                     },
                     Mine {
-                        remaining: BEGINNER_MINES,
+                        remaining: INTERMEDIATE_MINES,
                     })
                 )
                 let mut idx: u16 = 0_u16;
@@ -84,12 +85,14 @@ mod start {
                         break;
                     }
 
+                    let x = idx % INTERMEDIATE_WIDTH;
+                    let y = idx / INTERMEDIATE_HEIGHT;
                     set! (
                         ctx.world,
-                        (ctx.origin, grid_id, idx).into(),
+                        (ctx.origin, x, y).into(),
                         (Square {
-                            x: idx % INTERMEDIATE_WIDTH,
-                            y: idx / INTERMEDIATE_HEIGHT,
+                            x: x,
+                            y: y,
                             hidden: true,
                             mine: false,
                             flag: false,
@@ -119,12 +122,14 @@ mod start {
                         break;
                     }
 
+                    let x = idx % EXPERT_WIDTH;
+                    let y = idx / EXPERT_HEIGHT;
                     set! (
                         ctx.world,
-                        (ctx.origin, grid_id, idx).into(),
+                        (ctx.origin, x, y).into(),
                         (Square {
-                            x: idx % EXPERT_WIDTH,
-                            y: idx / EXPERT_HEIGHT,
+                            x: x,
+                            y: y,
                             hidden: true,
                             mine: false,
                             flag: false,
