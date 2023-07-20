@@ -44,7 +44,7 @@ sozo execute start -c 2
 ```
 
 Grid :
-```console
+```bash
 # get Grid 
 sozo component entity Grid 0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0
 
