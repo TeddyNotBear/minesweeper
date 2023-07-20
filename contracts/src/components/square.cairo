@@ -8,19 +8,16 @@ struct Square {
 }
 
 trait SquareTrait {
-    fn add_flag(self: Square) -> (u16, u16, bool);
+    fn add_flag(self: Square);
     fn is_hidden(self: Square) -> bool;
     fn is_mine(self: Square) -> bool;
     fn is_flagged(self: Square) -> bool;
 }
 
 impl SquareImpl of SquareTrait {
-    fn add_flag(mut self: Square) -> (u16, u16, bool) {
-        if self.flag {
-            return (self.x, self.y, true);
-        } else {
+    fn add_flag(mut self: Square) {
+        if !self.flag {
             self.flag = true;
-            return (self.x, self.y, true);
         }
     }
 

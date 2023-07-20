@@ -5,6 +5,7 @@ mod start {
     use minesweeper::components::grid::Grid;
     use minesweeper::components::square::Square;
     use minesweeper::components::mine::Mine;
+    use minesweeper::components::moves::Moves;
     use starknet::get_block_timestamp;
     use traits::Into;
 
@@ -44,6 +45,9 @@ mod start {
             },
             Mine {
                 remaining: mines,
+            },
+            Moves {
+                counter: 0_u16,
             })
         )
         let mut idx: u16 = 0_u16;
