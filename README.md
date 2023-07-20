@@ -83,7 +83,7 @@ sozo component schema Square
 
 Add Flag on Square :
 ```bash
-# We are adding a flag one the square at position (1,0)
+# We are adding a flag on the square at position (1,0)
 sozo execute add_flag -c 1,0
 ```
 
