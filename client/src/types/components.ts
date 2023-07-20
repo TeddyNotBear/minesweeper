@@ -1,11 +1,11 @@
-export type GridType = {
+export type Grid = {
 	grid_id: number;
 	width: number;
 	height: number;
 	start: number;
 };
 
-export type SquareType = {
+export type Square = {
 	x: number;
 	y: number;
 	hidden: boolean;
@@ -13,7 +13,7 @@ export type SquareType = {
 	flag: boolean;
 };
 
-export function parseRawCalldataAsGrid(calldata: string[]): GridType {
+export function parseRawCalldataAsGrid(calldata: string[]): Grid {
 	return {
 		grid_id: parseInt(calldata[0]),
 		width: parseInt(calldata[1]),
@@ -22,7 +22,7 @@ export function parseRawCalldataAsGrid(calldata: string[]): GridType {
 	};
 }
 
-export function parseRawCalldataAsSquare(calldata: string[]): SquareType {
+export function parseRawCalldataAsSquare(calldata: string[]): Square {
 	return {
 		x: parseInt(calldata[0]),
 		y: parseInt(calldata[1]),
