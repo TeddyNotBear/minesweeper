@@ -9,6 +9,7 @@ struct Square {
 
 trait SquareTrait {
     fn add_flag(self: Square);
+    fn remove_flag(self: Square);
     fn is_hidden(self: Square) -> bool;
     fn is_mine(self: Square) -> bool;
     fn is_flagged(self: Square) -> bool;
@@ -18,6 +19,12 @@ impl SquareImpl of SquareTrait {
     fn add_flag(mut self: Square) {
         if !self.flag {
             self.flag = true;
+        }
+    }
+
+    fn remove_flag(mut self: Square) {
+        if self.flag {
+            self.flag = false;
         }
     }
 

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { KATANA_ACCOUNT_1_ADDRESS, setupNetwork } from "./dojo/setupNetwork";
+import { KATANA_ACCOUNT_1_ADDRESS, WORLD_ADDRESS, setupNetwork } from "./dojo/setupNetwork";
 import { Button, Center, VStack } from "@chakra-ui/react";
 import Grid, { SquareData } from "./components/Grid";
-import { GridType, SquareType, parseRawCalldataAsGrid, parseRawCalldataAsSquare } from "./types/components";
+import { Grid as GridType, Square as SquareType, parseRawCalldataAsGrid, parseRawCalldataAsSquare } from "./types/components";
+import { useChainStateQuery } from "./hooks/useChainStateQuery";
+import { fetchRPC } from "./api";
 
 enum Stage {
 	Idle,
@@ -65,7 +67,29 @@ function Body() {
 
     // Grid = 1198680420
 	const onFetchGrid = function (callback: (grid: GridType) => void) {
-		setupNetwork()
+        const promises: any = [
+            fetchRPC({ 
+                contract_address: "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", 
+                entry_point_selector: "0x2e4263afad30923c891518314c3c95dbe830a16874e8abc5777a9a20b54c76e", 
+                calldata: [
+                    "0x049c7a9c0d35fc7af43743e288974b99bb5393496282ec560180ab77120f44a2"
+                ] 
+            })
+        ];
+        const {
+            data: GridState,
+            loading: GridStateLoading,
+            error: GridStateError,
+        } = useChainStateQuery<GridType>(promises, 0);
+
+        if (GridStateLoading) {
+        } else if (GridStateError) {
+            console.log("error on fetching grid", GridStateError); 
+        } else if (GridState) {
+            console.log("grid", GridState);
+        }
+
+		/*setupNetwork()
 			.call("entity", ["1198680420", KATANA_ACCOUNT_1_ADDRESS, 0n, 0n])
 			.then((result) => {
 				const data = result as string[];
@@ -74,7 +98,7 @@ function Body() {
 			})
 			.catch((error) => {
 				console.log("error on fetching grid", error);
-			});
+			});*/
 	};
 
     // Square = 91746765730405

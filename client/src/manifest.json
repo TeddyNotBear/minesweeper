@@ -1,0 +1,177 @@
+{
+  "world": {
+    "name": "world",
+    "address": null,
+    "class_hash": "0x332c8f1f381f577b8e4e600ac0979cc251d9f2e23e04a4e2d6f742b37bf9608"
+  },
+  "executor": {
+    "name": "executor",
+    "address": null,
+    "class_hash": "0x3a18e932f38edf59c456794a743006a62ecdbe6ec993434bbd3ef693861be16"
+  },
+  "systems": [
+    {
+      "name": "start",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@minesweeper::systems::start::start::ContractState"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "core::integer::u32"
+        }
+      ],
+      "class_hash": "0x1fd8540b65eb344301c84832bd337be0521e40a765eb4b37914be9d1d86881e",
+      "dependencies": [
+        {
+          "name": "Grid",
+          "read": false,
+          "write": true
+        },
+        {
+          "name": "Mine",
+          "read": false,
+          "write": true
+        },
+        {
+          "name": "Square",
+          "read": false,
+          "write": true
+        }
+      ]
+    },
+    {
+      "name": "add_flag",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@minesweeper::systems::add_flag::add_flag::ContractState"
+        },
+        {
+          "name": "x",
+          "type": "core::integer::u16"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "(core::integer::u16, core::integer::u16, core::bool)"
+        }
+      ],
+      "class_hash": "0x45f70f2e7cc9a81b3b7de78b7c0eadd7f57b3c720306bdfbe995aaa34b7a8be",
+      "dependencies": [
+        {
+          "name": "Square",
+          "read": true,
+          "write": true
+        }
+      ]
+    },
+    {
+      "name": "library_call",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@dojo::world::library_call::ContractState"
+        },
+        {
+          "name": "class_hash",
+          "type": "core::starknet::class_hash::ClassHash"
+        },
+        {
+          "name": "entrypoint",
+          "type": "core::felt252"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "core::array::Span::<core::felt252>"
+        }
+      ],
+      "class_hash": "0x68db745e776a934ba464f98c2286844df8c56eda78a0911f0971f7081b26d21",
+      "dependencies": []
+    }
+  ],
+  "contracts": [],
+  "components": [
+    {
+      "name": "Grid",
+      "members": [
+        {
+          "name": "grid_id",
+          "type": "u32",
+          "slot": 0,
+          "offset": 0
+        },
+        {
+          "name": "width",
+          "type": "u16",
+          "slot": 1,
+          "offset": 0
+        },
+        {
+          "name": "height",
+          "type": "u16",
+          "slot": 2,
+          "offset": 0
+        },
+        {
+          "name": "start",
+          "type": "u64",
+          "slot": 3,
+          "offset": 0
+        }
+      ],
+      "class_hash": "0x3ead3edf93d0cb02dbb678bc9a08d8f075c4e6d9437455649cf1d52d6f2ab45"
+    },
+    {
+      "name": "Mine",
+      "members": [
+        {
+          "name": "remaining",
+          "type": "u8",
+          "slot": 0,
+          "offset": 0
+        }
+      ],
+      "class_hash": "0x293bad78c7d87e6c1db36db5fdecd3a66a2162e0ed0b2e0e1779273fe4b2bf4"
+    },
+    {
+      "name": "Square",
+      "members": [
+        {
+          "name": "x",
+          "type": "u16",
+          "slot": 0,
+          "offset": 0
+        },
+        {
+          "name": "y",
+          "type": "u16",
+          "slot": 1,
+          "offset": 0
+        },
+        {
+          "name": "hidden",
+          "type": "bool",
+          "slot": 2,
+          "offset": 0
+        },
+        {
+          "name": "mine",
+          "type": "bool",
+          "slot": 3,
+          "offset": 0
+        },
+        {
+          "name": "flag",
+          "type": "bool",
+          "slot": 4,
+          "offset": 0
+        }
+      ],
+      "class_hash": "0x3fcd9af0315a5e53419b0163066bab8fc2e6851e883a22885daf6eec92d029a"
+    }
+  ]
+}

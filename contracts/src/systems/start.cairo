@@ -73,4 +73,9 @@ mod start {
         }
         (grid_id, player_id)
     }
+
+    fn randomly_generate_mines(ctx: Context) {
+        
+    }
+
 }

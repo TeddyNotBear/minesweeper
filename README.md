@@ -87,6 +87,12 @@ Add Flag on Square :
 sozo execute add_flag -c 1,0
 ```
 
+Remove Flag on Square :
+```bash
+# We are removing a flag on the square at position (1,0)
+sozo execute remove_flag -c 1,0
+```
+
 ## Authors
 
 - [@NotBearTeddy](https://twitter.com/NotBearTeddy)
