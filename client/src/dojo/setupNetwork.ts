@@ -1,6 +1,6 @@
 import { defineContractComponents } from "./contractComponents";
 import { world } from "./world";
-import { num } from 'starknet';
+import { number } from 'starknet';
 
 import { Providers, Query, SyncWorker} from "@dojoengine/core";
 import { Account, ec } from "starknet";
@@ -30,7 +30,7 @@ export async function setupNetwork() {
         contractComponents,
         provider,
         signer,
-        execute: async (system: string, call_data: num.BigNumberish[]) => provider.execute(signer, system, call_data),
+        execute: async (system: string, call_data: number.BigNumberish[]) => provider.execute(signer, system, call_data),
         entity: async (component: string, query: Query) => provider.entity(component, query),
         entities: async (component: string, partition: string, length: number) => provider.entities(component, partition, length),
         world,

@@ -1,5 +1,5 @@
 import { EVENT_KEY, SetupNetworkResult } from "./setupNetwork";
-import {num} from 'starknet';
+import {number} from 'starknet';
 import { Difficulty } from "../types";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
@@ -12,7 +12,7 @@ export function createSystemCalls(
         syncWorker.sync(tx.transaction_hash);
     }
 
-    const add_flag = async ({x, y}: {x: num.BigNumberish, y: num.BigNumberish}) => {
+    const add_flag = async ({x, y}: {x: number.BigNumberish, y: number.BigNumberish}) => {
         const tx = await execute("add_flag", [x, y]);
         syncWorker.sync(tx.transaction_hash);
     }
