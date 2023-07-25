@@ -1,9 +1,6 @@
 function Header() {
 	return (
-		<div className="">
-			<div className="">
-                Minesweeper
-			</div>
+		<div className="font-black text-6xl">
 		</div>
 	);
 }

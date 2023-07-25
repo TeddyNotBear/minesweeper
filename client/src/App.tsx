@@ -3,7 +3,7 @@ import { World } from '../src/layout/World';
 
 function App() {
   return (
-    <div className="relative w-screen h-screen bg-black">
+    <div className="w-screen h-screen bg-[#08042a]">
       <World />
     </div>
   )
