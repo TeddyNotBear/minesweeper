@@ -15,15 +15,15 @@
       "inputs": [
         {
           "name": "self",
-          "type": "@minesweeper::systems::start::start::ContractState"
+          "type": "@save_the_quacks::systems::start::start::ContractState"
         }
       ],
       "outputs": [
         {
-          "type": "core::integer::u32"
+          "type": "(core::integer::u32, core::starknet::contract_address::ContractAddress)"
         }
       ],
-      "class_hash": "0x1fd8540b65eb344301c84832bd337be0521e40a765eb4b37914be9d1d86881e",
+      "class_hash": "0x73ce27fd2c7e192f4eeac59541470459d603ec90c85889328248651be11b157",
       "dependencies": [
         {
           "name": "Grid",
@@ -31,7 +31,17 @@
           "write": true
         },
         {
+          "name": "Level",
+          "read": false,
+          "write": true
+        },
+        {
           "name": "Mine",
+          "read": false,
+          "write": true
+        },
+        {
+          "name": "Moves",
           "read": false,
           "write": true
         },
@@ -47,7 +57,11 @@
       "inputs": [
         {
           "name": "self",
-          "type": "@minesweeper::systems::add_flag::add_flag::ContractState"
+          "type": "@save_the_quacks::systems::add_flag::add_flag::ContractState"
+        },
+        {
+          "name": "grid_id",
+          "type": "core::integer::u32"
         },
         {
           "name": "x",
@@ -59,7 +73,38 @@
           "type": "(core::integer::u16, core::integer::u16, core::bool)"
         }
       ],
-      "class_hash": "0x45f70f2e7cc9a81b3b7de78b7c0eadd7f57b3c720306bdfbe995aaa34b7a8be",
+      "class_hash": "0x142bd6836c8ace227b8f18662d7f59e680ddf446435164740ad5a72bc24b673",
+      "dependencies": [
+        {
+          "name": "Grid",
+          "read": true,
+          "write": false
+        },
+        {
+          "name": "Square",
+          "read": true,
+          "write": true
+        }
+      ]
+    },
+    {
+      "name": "remove_flag",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@save_the_quacks::systems::remove_flag::remove_flag::ContractState"
+        },
+        {
+          "name": "x",
+          "type": "core::integer::u16"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "(core::integer::u16, core::integer::u16, core::bool)"
+        }
+      ],
+      "class_hash": "0x1869639d317049c64df168ddb8489fb8e1856e08c4e17f6b8deb5a50035fd76",
       "dependencies": [
         {
           "name": "Square",
@@ -117,13 +162,19 @@
           "offset": 0
         },
         {
-          "name": "start",
+          "name": "start_time",
           "type": "u64",
           "slot": 3,
           "offset": 0
+        },
+        {
+          "name": "player_id",
+          "type": "ContractAddress",
+          "slot": 4,
+          "offset": 0
         }
       ],
-      "class_hash": "0x3ead3edf93d0cb02dbb678bc9a08d8f075c4e6d9437455649cf1d52d6f2ab45"
+      "class_hash": "0x70b35946d2ed76a4b49b0224e06e9fee89643cce47b9b25872d10d22ad4b72a"
     },
     {
       "name": "Mine",
@@ -135,7 +186,7 @@
           "offset": 0
         }
       ],
-      "class_hash": "0x293bad78c7d87e6c1db36db5fdecd3a66a2162e0ed0b2e0e1779273fe4b2bf4"
+      "class_hash": "0x1969dac455b19df39f2bae12867e00c92da260ff42dec7042626a219e8ecaa1"
     },
     {
       "name": "Square",
@@ -171,7 +222,31 @@
           "offset": 0
         }
       ],
-      "class_hash": "0x3fcd9af0315a5e53419b0163066bab8fc2e6851e883a22885daf6eec92d029a"
+      "class_hash": "0x538ce72a843caa16f0486f9ac8571ff8826a678148c8a79b05569d1a195d6e3"
+    },
+    {
+      "name": "Moves",
+      "members": [
+        {
+          "name": "counter",
+          "type": "u16",
+          "slot": 0,
+          "offset": 0
+        }
+      ],
+      "class_hash": "0x1a67765d2c77068c324233b81346703826a6744b6de0a0f27f8d6dc51b85831"
+    },
+    {
+      "name": "Level",
+      "members": [
+        {
+          "name": "difficulty",
+          "type": "Difficulty",
+          "slot": 0,
+          "offset": 0
+        }
+      ],
+      "class_hash": "0x1b323962dab1a9ea39b2ed3797a9e6e1832832534c696d6ea9eb6f0f3e95ee4"
     }
   ]
 }

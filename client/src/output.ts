@@ -12,7 +12,8 @@ export function defineContractComponents(world: World) {
           grid_id: RecsType.Number,
           width: RecsType.Number,
           height: RecsType.Number,
-          start: RecsType.Number,
+          start_time: RecsType.Number,
+          player_id: RecsType.Number,
         },
         {
           metadata: {
@@ -45,6 +46,34 @@ export function defineContractComponents(world: World) {
           hidden: RecsType.Boolean,
           mine: RecsType.Boolean,
           flag: RecsType.Boolean,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
+    Moves: (() => {
+      const name = "Moves";
+      return defineComponent(
+        world,
+        {
+          counter: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
+    Level: (() => {
+      const name = "Level";
+      return defineComponent(
+        world,
+        {
+          difficulty: RecsType.Unknown,
         },
         {
           metadata: {

@@ -1,10 +1,14 @@
 import './index.css';
-import { World } from '../src/layout/World';
+import { Suspense } from 'react';
+import { useRoutes } from 'react-router-dom';
+import routes from './router';
 
 function App() {
+  const elements = useRoutes(routes);
+
   return (
     <div className="w-screen h-screen bg-[#08042a]">
-      <World />
+      <Suspense>{elements}</Suspense>
     </div>
   )
 }

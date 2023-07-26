@@ -10,6 +10,7 @@ export function createClientComponents({ contractComponents }: SetupNetworkResul
         Grid: overridableComponent(contractComponents.Grid),
         Square: overridableComponent(contractComponents.Square),
         Mine: overridableComponent(contractComponents.Mine),
-        //Moves: overridableComponent(contractComponents.Moves),
+        Moves: overridableComponent(contractComponents.Moves),
+        Level: overridableComponent(contractComponents.Level),
     };
 }

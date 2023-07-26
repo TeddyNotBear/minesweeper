@@ -21,10 +21,14 @@ Fully on-chain replica of the famous Minesweeper game built on Starknet using th
 
 ## Running the game
 
-Build the world :
 ```bash
+# Build the world
 sozo build
 
+# Start Katana RPC
+katana --allow-zero-max-fee
+
+# Migrate the World
 sozo migrate
 ```
 
@@ -65,7 +69,7 @@ sozo component schema Grid
 Get Square :
 ```bash
 # We are taking the square at position (1,0)
-sozo component entity Square  0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0 1 0
+sozo component entity Square 0 1 0
 
 # get Square schema
 sozo component schema Square
