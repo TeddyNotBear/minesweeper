@@ -1,8 +1,8 @@
-<picture>
-  <img alt="Minesweeper logo" srcset=".github/save_the_quacks.png">
-</picture>
+<p align="center">
+  <img width="400" alt="Minesweeper logo" src=".github/save_the_quacks.png">
+</p>
 
-## Save the Quacks
+# Save the Quacks
 
 Fully on-chain replica of the famous Minesweeper game built on Starknet using the [Dojo engine](https://github.com/dojoengine/dojo).
 
