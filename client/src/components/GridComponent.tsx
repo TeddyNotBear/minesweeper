@@ -1,6 +1,6 @@
 import { useDojo } from "../DojoContext";
 import { Utils } from '@dojoengine/core';
-import { Difficulty, Square } from "../types";
+import { Square } from "../types";
 import { getComponentValue } from "@latticexyz/recs";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -34,7 +34,7 @@ function GridComponent() {
 			  setClickedSquares(updatedClickedSquares);
 			  remove_flag({ x: square.x, y: square.y });
 			}
-		  }
+		}
 	};
 
 	useEffect(() => {
@@ -64,7 +64,7 @@ function GridComponent() {
 									onClick={(e: any) => handleSquareClick(e, index, square)} 
 									className={`${clickedSquares[index] ? 'bg-image-url' : ''} bg-[#4e3a6a] w-16 h-16 text-white rounded-sm cursor-pointer hover:bg-[#f6d16f]`}
 								>
-									{clickedSquares[index] ? <img src={flag} alt="Square" /> : index}
+									{clickedSquares[index] ? <img src={flag} alt="Square" /> : square.x + ',' + square.y }
 								</div>
 							);
 						})}

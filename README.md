@@ -97,6 +97,18 @@ Remove Flag on Square :
 sozo execute remove_flag -c 1,0
 ```
 
+Reveal a Square :
+```bash
+# We are revealing the square at position (1,0)
+sozo execute reveal -c 1,0
+```
+
+Find how many mines are around a Square :
+```bash
+# We are looking for neighbors mines around the square at position (1,0)
+sozo component entity Neighbors 0 1 0
+```
+
 ## Authors
 
 - [@NotBearTeddy](https://twitter.com/NotBearTeddy)

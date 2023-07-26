@@ -4,7 +4,7 @@ struct Square {
     y: u16,
     hidden: bool,
     mine: bool,
-    flag: bool,
+    flag: bool
 }
 
 trait SquareTrait {

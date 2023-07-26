@@ -9,6 +9,7 @@ mod start {
     use save_the_quacks::components::square::Square;
     use save_the_quacks::components::mine::Mine;
     use save_the_quacks::components::moves::Moves;
+    use save_the_quacks::components::neighbors::Neighbors;
     use save_the_quacks::components::level::{Level, Difficulty};
 
     use save_the_quacks::constants::{
@@ -69,6 +70,9 @@ mod start {
                     hidden: true,
                     mine: false,
                     flag: false,
+                },
+                Neighbors {
+                    count: 0_u8,
                 })
             );
 
