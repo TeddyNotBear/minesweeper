@@ -1,6 +1,6 @@
 import { useDojo } from "../DojoContext";
 import { Utils } from '@dojoengine/core';
-import { Square } from "../types";
+import { Square, SquareWithNeighbors } from "../types";
 import { getComponentValue } from "@latticexyz/recs";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -10,14 +10,14 @@ import { KATANA_ACCOUNT_1_ADDRESS } from "../dojo/setupNetwork";
 function GridComponent() {
 	const { grid_id } = useParams();
 
-    const [squares, setSquares] = useState<Square[]>([]);
+    const [squares, setSquares] = useState<SquareWithNeighbors[]>([]);
     const [level, setLevel] = useState<any>();
 	const [clickedSquares, setClickedSquares] = useState(Array(squares.length).fill(false));
     const player_id = BigInt(KATANA_ACCOUNT_1_ADDRESS);
 
 	const {
-		systemCalls: { add_flag, remove_flag },
-        components: { Square, Level },
+		systemCalls: { add_flag, remove_flag, reveal },
+        components: { Square, Level, Neighbors },
     } = useDojo();
 
 	const handleSquareClick = (event: any, index: number, square: Square) => {
@@ -35,6 +35,9 @@ function GridComponent() {
 			  remove_flag({ x: square.x, y: square.y });
 			}
 		}
+		if (event.type === 'click') {
+			console.log('reveal');
+		}
 	};
 
 	useEffect(() => {
@@ -42,11 +45,21 @@ function GridComponent() {
 		console.log(level);
 		const difficulty_level = level.difficulty == 0 ? 'Beginner' : level == 1 ? 'Intermediate' : 'Expert';
 		setLevel(difficulty_level);
-		let squares: any[] = [];
+		let squares: SquareWithNeighbors[] | undefined = [];
         for(let x = 0; x < 8; x++) {
             for(let y = 0; y < 8; y++) {
                 let square = getComponentValue(Square, Utils.getEntityIdFromKeys([BigInt(grid_id!), BigInt(x), BigInt(y)]));
-                squares.push(square);
+                let neighbors = getComponentValue(Neighbors, Utils.getEntityIdFromKeys([BigInt(grid_id!), BigInt(x), BigInt(y)]));
+				if(!square || !neighbors) { return;}
+				let squareWithNeighbors: SquareWithNeighbors = {
+					x: square.x,
+					y: square.y,
+					hidden: square.hidden,
+					mine: square.mine,
+					flag: square.flag,
+					count: neighbors.count,
+				  };
+                squares.push(squareWithNeighbors);
             }
         }
         setSquares(squares);
@@ -59,25 +72,36 @@ function GridComponent() {
 				{ squares.length > 0 && 
 					<div className="grid grid-cols-8 gap-1">
 						{squares.map((square, index) => {
-							return (
-								<div key={index} 
-									onClick={(e: any) => handleSquareClick(e, index, square)} 
-									className={`${clickedSquares[index] ? 'bg-image-url' : ''} bg-[#4e3a6a] w-16 h-16 text-white rounded-sm cursor-pointer hover:bg-[#f6d16f]`}
-								>
-									{clickedSquares[index] ? <img src={flag} alt="Square" /> : square.x + ',' + square.y }
-								</div>
-							);
-						})}
+							console.log(square);
+							if (square.hidden) { 
+								return (
+									<div key={index} 
+										onClick={(e: any) => handleSquareClick(e, index, square)} 
+										//${clickedSquares[index] || square.flag ? '' : ''}
+										className={`bg-[#4e3a6a] w-16 h-16 text-white rounded-sm cursor-pointer hover:bg-[#f6d16f]`}
+									>
+										{(clickedSquares[index] || square.flag) && square.hidden ? <img src={flag} alt="Square" /> : square.x + ',' + square.y }
+									</div>
+								);
+							} else {
+								return (
+									<div key={index} className="text-white font-bold flex items-center justify-center text-xl">
+										{square.mine ? '💣' : square.count}
+									</div>
+								);
+							}
+						}
+				)}
 					</div>
 				}
 				<div className="text-white w-full">
 					<div className="flex">
-						<span className="font-bold">Add Quack : </span>
-						<span className="font-light">Press Command (⌘) + Right Click</span>
+						<span className="font-bold">Add a Duck : </span>
+						<span className="font-light">Press Command (⌘) + Left Click</span>
 					</div>
 					<div className="flex">
 						<span className="font-bold">Reveal a Square :</span>
-						<span className="font-light">Right Click</span>
+						<span className="font-light">Left Click</span>
 					</div>
 				</div>
 			</div>
