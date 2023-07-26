@@ -100,8 +100,13 @@
           "type": "(core::integer::u16, core::integer::u16, core::bool)"
         }
       ],
-      "class_hash": "0x1869639d317049c64df168ddb8489fb8e1856e08c4e17f6b8deb5a50035fd76",
+      "class_hash": "0x51352b50c317e752314b98012b3eec2f677c85a2fde0315f4db47d530574ab1",
       "dependencies": [
+        {
+          "name": "Grid",
+          "read": true,
+          "write": false
+        },
         {
           "name": "Square",
           "read": true,

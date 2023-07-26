@@ -17,8 +17,14 @@ export function createSystemCalls(
         syncWorker.sync(tx.transaction_hash);
     }
 
+    const remove_flag = async ({x, y}: {x: number.BigNumberish, y: number.BigNumberish}) => {
+        const tx = await execute("remove_flag", [x, y]);
+        syncWorker.sync(tx.transaction_hash);
+    }
+
     return {
         start,
-        add_flag
+        add_flag,
+        remove_flag
     };
 }

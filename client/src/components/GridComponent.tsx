@@ -16,18 +16,25 @@ function GridComponent() {
     const player_id = BigInt(KATANA_ACCOUNT_1_ADDRESS);
 
 	const {
-		systemCalls: { add_flag },
+		systemCalls: { add_flag, remove_flag },
         components: { Square, Level },
     } = useDojo();
 
-	const handleSquareClick = (index: number, square: Square) => {
-		const updatedClickedSquares = [...clickedSquares];
-		updatedClickedSquares[index] = !updatedClickedSquares[index]; // Toggle the state
-		setClickedSquares(updatedClickedSquares);
-		console.log(grid_id);
-		console.log(square.x);
-		console.log(square.y);
-		add_flag({ x: square.x, y: square.y });
+	const handleSquareClick = (event: any, index: number, square: Square) => {
+		let isMac = navigator.userAgent.indexOf('Mac OS X') != -1;
+		if ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) {				
+			const updatedClickedSquares = [...clickedSquares];
+			const squareAlreadyClicked = updatedClickedSquares[index];
+			if (!squareAlreadyClicked) {
+			  updatedClickedSquares[index] = true;
+			  setClickedSquares(updatedClickedSquares);
+			  add_flag({ x: square.x, y: square.y });
+			} else {
+			  updatedClickedSquares[index] = false;
+			  setClickedSquares(updatedClickedSquares);
+			  remove_flag({ x: square.x, y: square.y });
+			}
+		  }
 	};
 
 	useEffect(() => {
@@ -46,22 +53,36 @@ function GridComponent() {
     }, []);
 
 	return (
-		<div className="">
-			{ level && <h1 className="text-4xl font-bold mb-4 text-white">{level}</h1> }
-			{ squares.length > 0 && 
-                <div className="grid grid-cols-8 gap-1">
-                    {squares.map((square, index) => {
-                        return (
-                            <div key={index} 
-								onClick={() => handleSquareClick(index, square)} 
-								className={`${clickedSquares[index] ? 'bg-image-url' : ''} bg-[#4e3a6a] w-16 h-16 text-white rounded-sm cursor-pointer hover:bg-[#f6d16f]`}
-							>
-								{clickedSquares[index] ? <img src={flag} alt="Square" /> : index}
-                            </div>
-                        );
-                    })}
-                </div>
-            }
+		<div className="flex">
+			<div>
+				{ level && <h1 className="text-4xl font-bold mb-4 text-white">{level}</h1> }
+				{ squares.length > 0 && 
+					<div className="grid grid-cols-8 gap-1">
+						{squares.map((square, index) => {
+							return (
+								<div key={index} 
+									onClick={(e: any) => handleSquareClick(e, index, square)} 
+									className={`${clickedSquares[index] ? 'bg-image-url' : ''} bg-[#4e3a6a] w-16 h-16 text-white rounded-sm cursor-pointer hover:bg-[#f6d16f]`}
+								>
+									{clickedSquares[index] ? <img src={flag} alt="Square" /> : index}
+								</div>
+							);
+						})}
+					</div>
+				}
+				<div className="text-white w-full">
+					<div className="flex">
+						<span className="font-bold">Add Quack : </span>
+						<span className="font-light">Press Command (⌘) + Right Click</span>
+					</div>
+					<div className="flex">
+						<span className="font-bold">Reveal a Square :</span>
+						<span className="font-light">Right Click</span>
+					</div>
+				</div>
+			</div>
+			<div className="text-white">
+			</div>
 		</div>
 	);
 }
