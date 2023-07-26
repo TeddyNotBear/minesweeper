@@ -68,7 +68,7 @@ sozo component schema Grid
 
 Get Square :
 ```bash
-# We are taking the square at position (1,0)
+# We are taking the square at position (1,0) for grid 0
 sozo component entity Square 0 1 0
 
 # get Square schema

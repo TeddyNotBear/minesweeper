@@ -24,12 +24,15 @@ function GridComponent() {
 		const updatedClickedSquares = [...clickedSquares];
 		updatedClickedSquares[index] = !updatedClickedSquares[index]; // Toggle the state
 		setClickedSquares(updatedClickedSquares);
-		console.log(square);
-		add_flag({ grid_id: grid_id!, x: square.x, y: square.y });
+		console.log(grid_id);
+		console.log(square.x);
+		console.log(square.y);
+		add_flag({ x: square.x, y: square.y });
 	};
 
 	useEffect(() => {
 		let level: any = getComponentValue(Level, Utils.getEntityIdFromKeys([player_id, BigInt(grid_id!)]));
+		console.log(level);
 		const difficulty_level = level.difficulty == 0 ? 'Beginner' : level == 1 ? 'Intermediate' : 'Expert';
 		setLevel(difficulty_level);
 		let squares: any[] = [];
@@ -44,7 +47,7 @@ function GridComponent() {
 
 	return (
 		<div className="">
-			{ level && <h1 className="text-4xl font-bold mb-4">{level}</h1> }
+			{ level && <h1 className="text-4xl font-bold mb-4 text-white">{level}</h1> }
 			{ squares.length > 0 && 
                 <div className="grid grid-cols-8 gap-1">
                     {squares.map((square, index) => {

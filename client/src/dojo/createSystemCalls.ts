@@ -12,8 +12,8 @@ export function createSystemCalls(
         syncWorker.sync(tx.transaction_hash);
     }
 
-    const add_flag = async ({grid_id, x, y}: {grid_id: number.BigNumberish, x: number.BigNumberish, y: number.BigNumberish}) => {
-        const tx = await execute("add_flag", [grid_id, x, y]);
+    const add_flag = async ({x, y}: {x: number.BigNumberish, y: number.BigNumberish}) => {
+        const tx = await execute("add_flag", [x, y]);
         syncWorker.sync(tx.transaction_hash);
     }
 
