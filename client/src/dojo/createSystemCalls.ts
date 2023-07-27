@@ -22,9 +22,15 @@ export function createSystemCalls(
         syncWorker.sync(tx.transaction_hash);
     }
 
+    const reveal = async ({x, y}: {x: number.BigNumberish, y: number.BigNumberish}) => {
+        const tx = await execute("reveal", [x, y]);
+        syncWorker.sync(tx.transaction_hash);
+    }
+
     return {
         start,
         add_flag,
-        remove_flag
+        remove_flag,
+        reveal
     };
 }

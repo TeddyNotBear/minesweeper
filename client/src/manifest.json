@@ -23,7 +23,7 @@
           "type": "(core::integer::u32, core::starknet::contract_address::ContractAddress)"
         }
       ],
-      "class_hash": "0x73ce27fd2c7e192f4eeac59541470459d603ec90c85889328248651be11b157",
+      "class_hash": "0x50440588f5ef37b345cb8b5c2995b8dc4bb03174368d8c752dcfdb9501b7307",
       "dependencies": [
         {
           "name": "Grid",
@@ -42,6 +42,11 @@
         },
         {
           "name": "Moves",
+          "read": false,
+          "write": true
+        },
+        {
+          "name": "Neighbors",
           "read": false,
           "write": true
         },
@@ -110,6 +115,69 @@
         {
           "name": "Square",
           "read": true,
+          "write": true
+        }
+      ]
+    },
+    {
+      "name": "reveal",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@save_the_quacks::systems::reveal::reveal::ContractState"
+        },
+        {
+          "name": "x",
+          "type": "core::integer::u16"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x48011ced5a09e8d447a771bb4251596a7e9edcd3587da3d8769cafbe85c676c",
+      "dependencies": [
+        {
+          "name": "Grid",
+          "read": true,
+          "write": false
+        },
+        {
+          "name": "Neighbors",
+          "read": false,
+          "write": true
+        },
+        {
+          "name": "Square",
+          "read": true,
+          "write": true
+        }
+      ]
+    },
+    {
+      "name": "set_mine_manually",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@save_the_quacks::systems::set_mine_manually::set_mine_manually::ContractState"
+        },
+        {
+          "name": "x",
+          "type": "core::integer::u16"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "(core::integer::u16, core::integer::u16, core::bool)"
+        }
+      ],
+      "class_hash": "0x5f00dcc17c5bdbcf9f0e8fdd6c27fae5e3fe8f7e4b3ef86bfbf891b10d43ba3",
+      "dependencies": [
+        {
+          "name": "Grid",
+          "read": true,
+          "write": false
+        },
+        {
+          "name": "Square",
+          "read": false,
           "write": true
         }
       ]
@@ -248,6 +316,18 @@
         }
       ],
       "class_hash": "0x1b323962dab1a9ea39b2ed3797a9e6e1832832534c696d6ea9eb6f0f3e95ee4"
+    },
+    {
+      "name": "Neighbors",
+      "members": [
+        {
+          "name": "count",
+          "type": "u8",
+          "slot": 0,
+          "offset": 0
+        }
+      ],
+      "class_hash": "0x7a8f8bc909481a68a55064d5104c27cea36e31f016ac25dbb1f81d6df683432"
     }
   ]
 }

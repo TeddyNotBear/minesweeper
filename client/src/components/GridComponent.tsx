@@ -5,14 +5,16 @@ import { getComponentValue } from "@latticexyz/recs";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import flag from '../assets/DuckFlag.png';
+import bomb from '../assets/Bomb.png';
 import { KATANA_ACCOUNT_1_ADDRESS } from "../dojo/setupNetwork";
 
 function GridComponent() {
 	const { grid_id } = useParams();
 
     const [squares, setSquares] = useState<SquareWithNeighbors[]>([]);
-    const [level, setLevel] = useState<any>();
+	const [gameOver, setGameOver] = useState(false);
 	const [clickedSquares, setClickedSquares] = useState(Array(squares.length).fill(false));
+    const [countClick, setCountClick] = useState<number>(0);
     const player_id = BigInt(KATANA_ACCOUNT_1_ADDRESS);
 
 	const {
@@ -20,31 +22,45 @@ function GridComponent() {
         components: { Square, Level, Neighbors },
     } = useDojo();
 
+
+	let level: any = getComponentValue(Level, Utils.getEntityIdFromKeys([player_id, BigInt(grid_id!)]));
+	const difficulty_level = level.difficulty == 0 ? 'Beginner' : level == 1 ? 'Intermediate' : 'Expert';
+
 	const handleSquareClick = (event: any, index: number, square: Square) => {
-		let isMac = navigator.userAgent.indexOf('Mac OS X') != -1;
-		if ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) {				
+		if (square.hidden && !gameOver) {
 			const updatedClickedSquares = [...clickedSquares];
 			const squareAlreadyClicked = updatedClickedSquares[index];
-			if (!squareAlreadyClicked) {
-			  updatedClickedSquares[index] = true;
-			  setClickedSquares(updatedClickedSquares);
-			  add_flag({ x: square.x, y: square.y });
-			} else {
-			  updatedClickedSquares[index] = false;
-			  setClickedSquares(updatedClickedSquares);
-			  remove_flag({ x: square.x, y: square.y });
+			let isMac = navigator.userAgent.indexOf('Mac OS X') != -1;
+			if ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) {
+				if(!square.flag) {
+					console.log('add flag');
+					if (!squareAlreadyClicked) {
+						updatedClickedSquares[index] = true;
+						setClickedSquares(updatedClickedSquares);
+						add_flag({ x: square.x, y: square.y });
+						setCountClick((prevCount) => prevCount + 1);
+					} else {
+						console.log('remove flag');
+						updatedClickedSquares[index] = false;
+						setClickedSquares(updatedClickedSquares);
+						remove_flag({ x: square.x, y: square.y });
+						setCountClick((prevCount) => prevCount + 1);
+					}
+				}
 			}
-		}
-		if (event.type === 'click') {
-			console.log('reveal');
+			if (event.type === 'click' && (isMac && !event.metaKey) || (!isMac && !event.ctrlKey)) {
+				if (square.mine) {
+					setGameOver(true);
+				} else {
+					console.log('reveal');
+					reveal({ x: square.x, y: square.y });
+					setCountClick((prevCount) => prevCount + 1);
+				}
+			}
 		}
 	};
 
 	useEffect(() => {
-		let level: any = getComponentValue(Level, Utils.getEntityIdFromKeys([player_id, BigInt(grid_id!)]));
-		console.log(level);
-		const difficulty_level = level.difficulty == 0 ? 'Beginner' : level == 1 ? 'Intermediate' : 'Expert';
-		setLevel(difficulty_level);
 		let squares: SquareWithNeighbors[] | undefined = [];
         for(let x = 0; x < 8; x++) {
             for(let y = 0; y < 8; y++) {
@@ -58,8 +74,8 @@ function GridComponent() {
 					mine: square.mine,
 					flag: square.flag,
 					count: neighbors.count,
-				  };
-                squares.push(squareWithNeighbors);
+				};
+				squares.push(squareWithNeighbors);
             }
         }
         setSquares(squares);
@@ -68,25 +84,26 @@ function GridComponent() {
 	return (
 		<div className="flex">
 			<div>
-				{ level && <h1 className="text-4xl font-bold mb-4 text-white">{level}</h1> }
+				<div className="flex justify-between items-center">
+					{ difficulty_level && <h1 className="text-4xl font-bold mb-4 text-white">{difficulty_level}</h1> }
+				</div>
 				{ squares.length > 0 && 
 					<div className="grid grid-cols-8 gap-1">
 						{squares.map((square, index) => {
-							console.log(square);
 							if (square.hidden) { 
 								return (
 									<div key={index} 
 										onClick={(e: any) => handleSquareClick(e, index, square)} 
 										//${clickedSquares[index] || square.flag ? '' : ''}
-										className={`bg-[#4e3a6a] w-16 h-16 text-white rounded-sm cursor-pointer hover:bg-[#f6d16f]`}
+										className={`${gameOver && square.mine ? 'bg-[#e31919] cursor-not-allowed' : 'bg-[#4e3a6a] cursor-pointer hover:bg-[#f6d16f]'} w-16 h-16 text-white rounded-sm' `}
 									>
 										{(clickedSquares[index] || square.flag) && square.hidden ? <img src={flag} alt="Square" /> : square.x + ',' + square.y }
 									</div>
 								);
 							} else {
 								return (
-									<div key={index} className="text-white font-bold flex items-center justify-center text-xl">
-										{square.mine ? '💣' : square.count}
+									<div key={index} className={`${gameOver && square.mine ? 'bg-[#e31919] cursor-not-allowed' : '' } text-white font-bold flex items-center justify-center text-xl'`}>
+										{square.mine ? <img className="w-12" src={bomb} alt="Square" />  : square.count}
 									</div>
 								);
 							}

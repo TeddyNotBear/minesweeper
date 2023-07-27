@@ -82,5 +82,19 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    Neighbors: (() => {
+      const name = "Neighbors";
+      return defineComponent(
+        world,
+        {
+          count: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
   };
 }

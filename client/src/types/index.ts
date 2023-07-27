@@ -5,13 +5,19 @@ export interface Grid {
 	start_time: number,
 };
 
-export interface Square {
+export type Neighbors = {
+	count: number
+};
+
+export type Square = {
 	x: number,
 	y: number,
 	hidden: boolean,
 	mine: boolean,
 	flag: boolean,
 };
+
+export type SquareWithNeighbors = Square & Neighbors;
 
 export enum Difficulty {
 	Beginner,
