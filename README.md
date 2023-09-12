@@ -6,6 +6,11 @@
 
 Fully on-chain replica of the famous Minesweeper game built on Starknet using the [Dojo engine](https://github.com/dojoengine/dojo).
 
+<p align="center">
+  <img width="200" alt="Minesweeper logo" src=".github/homepage.jpg">
+  <img width="200" alt="Minesweeper logo" src=".github/grid_example.jpg">
+</p>
+
 ### Entities
 - ``
 

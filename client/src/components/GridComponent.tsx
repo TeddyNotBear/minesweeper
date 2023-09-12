@@ -24,6 +24,7 @@ function GridComponent() {
 
 
 	let level: any = getComponentValue(Level, Utils.getEntityIdFromKeys([player_id, BigInt(grid_id!)]));
+	console.log(level);
 	const difficulty_level = level.difficulty == 0 ? 'Beginner' : level == 1 ? 'Intermediate' : 'Expert';
 
 	const handleSquareClick = (event: any, index: number, square: Square) => {
@@ -33,18 +34,20 @@ function GridComponent() {
 			let isMac = navigator.userAgent.indexOf('Mac OS X') != -1;
 			if ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) {
 				if(!square.flag) {
-					console.log('add flag');
 					if (!squareAlreadyClicked) {
+						console.log('add flag');
 						updatedClickedSquares[index] = true;
 						setClickedSquares(updatedClickedSquares);
 						add_flag({ x: square.x, y: square.y });
 						setCountClick((prevCount) => prevCount + 1);
+						console.log(square);
 					} else {
 						console.log('remove flag');
 						updatedClickedSquares[index] = false;
 						setClickedSquares(updatedClickedSquares);
 						remove_flag({ x: square.x, y: square.y });
 						setCountClick((prevCount) => prevCount + 1);
+						console.log(square);
 					}
 				}
 			}

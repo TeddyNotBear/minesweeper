@@ -1,11 +1,12 @@
-import { EVENT_KEY, SetupNetworkResult } from "./setupNetwork";
+import { EVENT_KEY, KATANA_ACCOUNT_1_ADDRESS, SetupNetworkResult } from "./setupNetwork";
 import {number} from 'starknet';
 import { Difficulty } from "../types";
+import { Query } from "@dojoengine/core";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
 export function createSystemCalls(
-    { execute, syncWorker, provider }: SetupNetworkResult,
+    { execute, syncWorker, provider, entity }: SetupNetworkResult,
 ) {
     const start = async ({difficulty_level}: {difficulty_level: Difficulty}) => {
         const tx = await execute("start", [difficulty_level]);
@@ -27,10 +28,21 @@ export function createSystemCalls(
         syncWorker.sync(tx.transaction_hash);
     }
 
+    const test = async ({player_id}: {player_id: bigint}) => {
+        let query: Query = {
+            address_domain: '0',
+            partition: KATANA_ACCOUNT_1_ADDRESS,
+            keys: [player_id],
+        }
+        const tx = await entity("Grid", query);
+        console.log(tx);
+    }
+
     return {
         start,
         add_flag,
         remove_flag,
-        reveal
+        reveal,
+        test
     };
 }

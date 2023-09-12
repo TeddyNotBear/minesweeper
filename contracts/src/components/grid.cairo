@@ -2,6 +2,7 @@ use starknet::contract_address::ContractAddress;
 
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Grid {
+    #[key]
     grid_id: u32,
     width: u16,
     height: u16,
